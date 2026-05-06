@@ -1,18 +1,27 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from "@prisma/client"
 import { prisma } from "../libs/prisma"
 
-type CreateUserprops = {
-    name: string,
-    email: string
+type CreateUserProps = {
+	name: string
+	email: string
 }
 
-export const createUser = async ({name, email}: CreateUserprops) => {
-    const user = await prisma.user.create({
-        data: {
-            name,
-            email
-        }
+export const createUser = async ({ name, email }: CreateUserProps) => {
+	try {
+		const user = await prisma.user.create({
+			data: {
+				name,
+				email
+			}
+		})
 
-    })
-    return user
+		return user
+	} catch (error) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+			if (error.code === 'P2002') {
+				console.error('Error: Email already exists')
+				return false
+			}
+		}
+	}
 }

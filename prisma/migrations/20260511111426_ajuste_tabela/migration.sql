@@ -1,19 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE `post` DROP FOREIGN KEY `Post_userId_fkey`;
-
--- DropTable
-DROP TABLE `post`;
-
--- DropTable
-DROP TABLE `user`;
-
 -- CreateTable
 CREATE TABLE `users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
@@ -34,10 +18,10 @@ CREATE TABLE `posts` (
     `title` VARCHAR(191) NOT NULL,
     `subtitle` VARCHAR(191) NULL,
     `content` VARCHAR(191) NOT NULL,
-    `userId` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `posts` ADD CONSTRAINT `posts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `posts` ADD CONSTRAINT `posts_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
